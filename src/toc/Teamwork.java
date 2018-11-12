@@ -17,12 +17,12 @@ public class Teamwork
         // It will help us if the surname of programmer1 comes
         // alphabetically before the surname of programmer2
         details[0] = "team name";
-        details[1] = "surname of programmer1";
-        details[2] = "first name of programmer1";
-        details[3] = "SRN of programmer1";
-        details[4] = "surname of programmer2";
-        details[5] = "first name of programmer2";
-        details[6] = "SRN of programmer2";
+        details[1] = "Kingsbury";
+        details[2] = "Nickolas";
+        details[3] = "16022749";
+        details[4] = "Tinoy";
+        details[5] = "Gerron";
+        details[6] = "14154692";
     }
     
     public String[] getTeamDetails()

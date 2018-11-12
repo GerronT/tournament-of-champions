@@ -35,10 +35,14 @@ public class GameUI
                 else if (choice == 2)
                 {
                     // code omitted
+                	System.out.println(tr.getTeam());
                 }
                 else if (choice == 3)
                 {
                     // code omitted
+                	System.out.println("Enter Champion name");
+                	String champName = myIn.nextLine(); 
+                	System.out.println(tr.getChampionDetails(champName));
                 } 
                 else if (choice == 4)
                 {   
@@ -103,6 +107,13 @@ public class GameUI
                         result = tr.withdrawChampion(nme);
                         // code omitted
                         // display message appropriate to result
+                        if (result == 0) {
+                        	output = nme + " is withdrawn from the team";
+                        } else if (result == 1) {
+                        	output = nme + " is dead and cannot be withdrawn";
+                        } else if (result == 2) {
+                        	output = nme + " is already in reserved";
+                        }
                     }
                     else 
                     {
