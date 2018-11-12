@@ -11,7 +11,13 @@ import java.io.*;
 
 public class Tournament implements TOC 
 {
+    private String playerName;
+    private int treasury = 1000;
     
+    private String fileName = "tournament";
+    
+    private ArrayList<Champion> champions = new ArrayList<Champion>();
+    private ArrayList<Challenge> challenges = new ArrayList<Challenge>();
 
 //**************** TOC ************************** 
     /** Constructor requires the name of the player
@@ -19,6 +25,9 @@ public class Tournament implements TOC
      */  
     public Tournament(String pl)
     {
+    	this.playerName = pl;
+    	setupChampions();
+    	setupChallenges();
     }
     
     /** Constructor requires the name of the player and the
@@ -28,6 +37,8 @@ public class Tournament implements TOC
      */  
     public Tournament(String pl, String filename)  //Task 3
     {
+    	this(pl);
+    	this.fileName = filename;
     }
     
     
@@ -42,7 +53,6 @@ public class Tournament implements TOC
      **/
     public String toString()
     {
-       
         return "";
     }
     
@@ -54,6 +64,15 @@ public class Tournament implements TOC
      */
     public boolean isDefeated()
     {
+    	boolean foundChampion = false;
+    	for (Champion champion : champions) {
+    		if (champion.getStatus().equals("Entered"))
+    			foundChampion = true;
+    	}
+    	
+    	if (treasury <= 0 && foundChampion) 
+    		return true;
+    	
         return false;
     }
     
@@ -62,7 +81,7 @@ public class Tournament implements TOC
      */
     public int getMoney()
     {
-        return 0;
+        return treasury;
     }
     
     
@@ -70,8 +89,13 @@ public class Tournament implements TOC
      * @return a String representation of all champions in the reserves
      **/
     public String getReserve()
-    {    
-        return "";
+    {   
+    	String ss = "";
+		for (Champion champion : champions) {
+			if (champion.getStatus().equals("Waiting"))
+				ss += champion.getChampionDetails() + "\n";
+		}
+		return ss;
     }
     
     /** Returns details of champion in reserves with the given name
@@ -79,16 +103,24 @@ public class Tournament implements TOC
      **/
     public String findChampionInReserve(String nme)
     {
-         return "";
+    	for (Champion champion : champions) {
+    		if (champion.getStatus().equals("Waiting"))
+    			if (champion.getChampionName().equalsIgnoreCase(nme))
+    				return champion.getChampionDetails() + "\n";
+		}
+    	return "No Champion found with the name \"" + nme + "\"";
     }
-    
     
     /** Returns details of any champion with the given name
      * @return details of any champion with the given name
      **/
     public String getChampionDetails(String nme)
     {
-        return "";
+    	for (Champion champion : champions) {
+    			if (champion.getChampionName().equalsIgnoreCase(nme))
+    				return champion.getChampionDetails() + "\n";
+		}
+    	return "No Champion found with the name \"" + nme + "\"";
     }     
     
      /** Returns whether champion exists, or not
@@ -97,6 +129,11 @@ public class Tournament implements TOC
      */
     public boolean isChampion(String nme)
     {
+    	for (Champion champion : champions) {
+			if (champion.getChampionName().equalsIgnoreCase(nme))
+				return true;
+    	}
+    	
         return false;
     }
  
@@ -111,7 +148,22 @@ public class Tournament implements TOC
      **/       
     public int enterChampion(String nme)
     {
-        return -1;
+		for (Champion champion : champions) {
+			if (champion.getChampionName().equals(nme)) {
+				if (!champion.getStatus().equals("Waiting"))
+					return 1;
+				int champEF = champion.getEntryFee();
+				if (treasury >= champEF) {
+					treasury -= champEF;
+					champion.setStatus("Entered");
+					return 0;
+				} else {
+					return 2;
+				}
+			}
+		}
+		
+		return -1;
     }
         
     /** Returns true if the champion with the name is in 
@@ -122,6 +174,10 @@ public class Tournament implements TOC
      **/
     public boolean isInPlayersTeam(String nme)
     {
+    	for (Champion champion: champions) {
+    		if (champion.getStatus().equals("Entered"))
+    			return true;
+    	}
         return false;
     }
     
@@ -135,7 +191,22 @@ public class Tournament implements TOC
      **/
     public int withdrawChampion(String nme)
     {
-        return -1;
+    	for (Champion champion : champions) {
+    		if (champion.getChampionName().equalsIgnoreCase(nme)) {
+    			if (champion.getStatus().equals("Dead")) {
+    				return 1;
+    			} else if (champion.getStatus().equals("Waiting")) {
+    				return 2;
+    			} else {
+    				treasury += (champion.getEntryFee() / 2);
+    				champion.setStatus("Waiting");
+    				return 0;
+    			}
+    		}
+    	}
+    	
+    	return -1;
+
     }
     
    
@@ -145,7 +216,17 @@ public class Tournament implements TOC
      **/
     public String getTeam()
     {
-        return "";
+    	int champCount = 0;
+    	String ss = "";
+		for (Champion champion : champions) {
+			if (champion.getStatus().equals("Entered")) {
+				ss += champion.getChampionDetails() + "\n";
+				champCount ++;
+			}
+		}
+		
+		return champCount > 0 ? ss : "No champions entered";
+
     }
     
 //**********************Challenges************************* 
@@ -155,6 +236,10 @@ public class Tournament implements TOC
      **/
      public boolean isChallenge(int num)
      {
+         for (Challenge challenge : challenges) {
+        	 if (challenge.getChallengeNo() == num)
+        		 return true;
+         }
          return false;
      }
      
@@ -202,6 +287,15 @@ public class Tournament implements TOC
     //*******************************************************************************
     private void setupChampions()
     {
+    	champions.add(new Wizard("Ganfrank", 7, true, "transmuation"));
+		champions.add(new Wizard("Rudolf", 6, true, "invisibility"));
+		champions.add(new Warrior("Elblond", 150, "sword"));
+		champions.add(new Warrior("Flimsi", 200, "bow"));
+		champions.add(new Dragon("Drabina", false));
+		champions.add(new Dragon("Golum", false));
+		champions.add(new Warrior("Argon", 900, "mace"));
+		champions.add(new Wizard("Neon", 2, false, "translocation"));
+		champions.add(new Dragon("Xenon", true));
     }
      
     private void setupChallenges()
