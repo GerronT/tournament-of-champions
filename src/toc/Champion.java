@@ -26,6 +26,10 @@ public class Champion {
 	public int getEntryFee() {
 		return entryFee;
 	}
+        
+        public int getSkillLevel() {
+		return skillLevel;
+	}
 	
 	public String getChampionName() {
 		return championName;
@@ -38,5 +42,7 @@ public class Champion {
 	public String getExtras() {
 		return null;
 	}
-	
+	public boolean[] getTypes () {
+            return new boolean[] {false, false, false};
+        }
 }

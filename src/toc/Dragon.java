@@ -13,5 +13,7 @@ public class Dragon extends Champion{
 	public String getExtras() {
 		return ", Talks: " + (talks ? "Yes" : "No");
 	}
-
+        public boolean[] getTypes () {
+            return new boolean[] {false, true, talks};
+        }
 }
