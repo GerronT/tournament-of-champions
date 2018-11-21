@@ -260,34 +260,28 @@ public class Tournament implements TOC
       */  
     public int fightChallenge(int chalNo)
     {   
-        boolean notFoundSL = false;
         for (Challenge challenge: challenges) {
             if (challenge.getChallengeNo() == chalNo) {
+                String challengeType = challenge.getType();
                 for (Champion champion : champions) {
                     if (champion.getStatus().equalsIgnoreCase("entered")) {
-                        String challengeType = challenge.getType();
                         boolean allowed = false;
                         if (challengeType.equals("Magic")) {
-                            allowed = champion.getTypes()[0];
+                            allowed = champion.GetChallengeAuthorisation()[0];
                         } else if (challengeType.equals("Fight")) {
-                            allowed = champion.getTypes()[1];
+                            allowed = champion.GetChallengeAuthorisation()[1];
                         } else if (challengeType.equals("Mystery")) {
-                            allowed = champion.getTypes()[2];
+                            allowed = champion.GetChallengeAuthorisation()[2];
                         }
                         if (allowed) {
                             if (champion.getSkillLevel() >= challenge.getSkillReq()) {
                                 return 0;
                             } else {
-                                notFoundSL = true;
+                                return 2;
                             }
                         }
                     }
 		}
-                if (notFoundSL) {
-                    return 2;
-                } else {
-                    return 1;
-                }
             }
         }
         return -1;

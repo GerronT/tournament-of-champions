@@ -42,7 +42,7 @@ public class Champion {
 	public String getExtras() {
 		return null;
 	}
-	public boolean[] getTypes () {
+	public boolean[] GetChallengeAuthorisation () {
             return new boolean[] {false, false, false};
         }
 }
