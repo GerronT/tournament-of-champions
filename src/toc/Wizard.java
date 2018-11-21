@@ -21,5 +21,7 @@ public class Wizard extends Champion{
 		return ", Necromancer: " + (necromancer ? "Yes" : "No") + ", Speciality: " + speciality;
 	}
 
-
+        public boolean[] getChallengeAuthorisation () {
+            return new boolean[] {true, true, true};
+        }
 }

@@ -259,7 +259,31 @@ public class Tournament implements TOC
       * @return an int showing the result(as above) of fighting the challenge
       */  
     public int fightChallenge(int chalNo)
-    {
+    {   
+        for (Challenge challenge: challenges) {
+            if (challenge.getChallengeNo() == chalNo) {
+                String challengeType = challenge.getType();
+                for (Champion champion : champions) {
+                    if (champion.getStatus().equalsIgnoreCase("entered")) {
+                        boolean allowed = false;
+                        if (challengeType.equals("Magic")) {
+                            allowed = champion.getChallengeAuthorisation()[0];
+                        } else if (challengeType.equals("Fight")) {
+                            allowed = champion.getChallengeAuthorisation()[1];
+                        } else if (challengeType.equals("Mystery")) {
+                            allowed = champion.getChallengeAuthorisation()[2];
+                        }
+                        if (allowed) {
+                            if (champion.getSkillLevel() >= challenge.getSkillReq()) {
+                                return 0;
+                            } else {
+                                return 2;
+                            }
+                        }
+                    }
+		}
+            }
+        }
         return -1;
     }
 
@@ -271,15 +295,24 @@ public class Tournament implements TOC
      **/
     public String getChallenge(int num)
     {
-        return "";
+        for (Challenge challenge: challenges) {
+            if (challenge.getChallengeNo() == num) {
+                return challenge.toString();
+            }
+        }
+        return "Challenge not found";
     }
     
     /** Provides a String representation of all challenges 
      * @return returns a String representation of all challenges
      **/
     public String getAllChallenges()
-    {
-        return "";
+    {   
+        String toReturn = "";
+        for (Challenge challenge: challenges) {
+            toReturn += challenge.toString();
+        }
+        return toReturn;
     }
     
 
@@ -300,6 +333,15 @@ public class Tournament implements TOC
      
     private void setupChallenges()
     {
+        challenges.add(new Challenge(1, "Magic", "Borg", 3, 100));
+        challenges.add(new Challenge(2, "Fight", "Huns", 3, 120));
+        challenges.add(new Challenge(3, "Mystery", "Ferengi", 3, 150));
+        challenges.add(new Challenge(4, "Magic", "Vandal", 9, 200));
+        challenges.add(new Challenge(5, "Mystery", "Borg" , 7, 90));
+        challenges.add(new Challenge(6, "Fight", "Goth", 8, 45));
+        challenges.add(new Challenge(7, "Magic", "Frank", 10, 200));
+        challenges.add(new Challenge(8, "Fight", "Sith", 10, 170));
+        challenges.add(new Challenge(9, "Mystery", "Cardashian", 9, 300));
     }
         
    
