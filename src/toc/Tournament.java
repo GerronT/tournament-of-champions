@@ -267,11 +267,11 @@ public class Tournament implements TOC
                     if (champion.getStatus().equalsIgnoreCase("entered")) {
                         boolean allowed = false;
                         if (challengeType.equals("Magic")) {
-                            allowed = champion.GetChallengeAuthorisation()[0];
+                            allowed = champion.getChallengeAuthorisation()[0];
                         } else if (challengeType.equals("Fight")) {
-                            allowed = champion.GetChallengeAuthorisation()[1];
+                            allowed = champion.getChallengeAuthorisation()[1];
                         } else if (challengeType.equals("Mystery")) {
-                            allowed = champion.GetChallengeAuthorisation()[2];
+                            allowed = champion.getChallengeAuthorisation()[2];
                         }
                         if (allowed) {
                             if (champion.getSkillLevel() >= challenge.getSkillReq()) {
