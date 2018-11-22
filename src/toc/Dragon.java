@@ -11,7 +11,7 @@ public class Dragon extends Champion{
 	
 	@Override
 	public String getExtras() {
-		return ", Talks: " + (talks ? "Yes" : "No");
+		return "\n Talks: " + (talks ? "Yes" : "No");
 	}
         public boolean[] getChallengeAuthorisation () {
             return new boolean[] {false, true, talks};

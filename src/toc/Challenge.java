@@ -9,7 +9,7 @@ public class Challenge {
         
 	
 	public Challenge(int n, String type, String enemy, int skillReq, int reward) {
-		this.challengeNo = n + 1; 
+				this.challengeNo = n; 
                 this.type = type; 
                 this.enemy = enemy; 
                 this.skillLevelReq = skillReq; 
@@ -38,10 +38,10 @@ public class Challenge {
         
         @Override
         public String toString() {
-            return "Number: " + challengeNo + "/n"
-            + "Type: " + type + "/n"
-            + "Enemy Name: " + enemy + "/n"
-            + "Skill level required: " + skillLevelReq + "/n"
-            + "Reward: " + reward + "/n";
+            return "Number: " + challengeNo
+            + "\nType: " + type
+            + "\nEnemy Name: " + enemy
+            + "\nSkill level required: " + skillLevelReq
+            + "\nReward: " + reward + "\n";
         }
 }

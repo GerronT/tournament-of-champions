@@ -36,12 +36,16 @@ public class Champion {
 	}
 	
 	public String getChampionDetails() {
-		return "Name: " + championName + ", Skill Level: " + skillLevel + ", Entry Fee: " + entryFee + ", Status: " + status + getExtras();
+		return "Name: " + championName 
+				+ "\n Skill Level: " + skillLevel 
+				+ "\n Entry Fee: " + entryFee 
+				+ "\n Status: " + status + getExtras() + "\n";
 	}
 
 	public String getExtras() {
 		return null;
 	}
+	
 	public boolean[] getChallengeAuthorisation () {
             return new boolean[] {false, false, false};
         }
