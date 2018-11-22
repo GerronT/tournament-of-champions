@@ -53,7 +53,13 @@ public class Tournament implements TOC
      **/
     public String toString()
     {
-        return "";
+    	String ss = "";
+    	ss += "Player Name: " + this.playerName;
+    	ss += "\n\nTreasury: " + getMoney();
+    	ss += "\n\nChampions in Reserve: \n" + getReserve();
+    	ss += "\nChampions in Team: \n" + getTeam();
+    	ss += "\nList of Challenges: \n" + getAllChallenges();
+        return ss;
     }
     
     
@@ -225,7 +231,7 @@ public class Tournament implements TOC
 			}
 		}
 		
-		return champCount > 0 ? ss : "No champions entered";
+		return champCount > 0 ? ss : "No champions entered\n";
 
     }
     
@@ -260,30 +266,41 @@ public class Tournament implements TOC
       */  
     public int fightChallenge(int chalNo)
     {   
+    	// search for the selected challenge
         for (Challenge challenge: challenges) {
             if (challenge.getChallengeNo() == chalNo) {
                 String challengeType = challenge.getType();
+                // search for champions in team
                 for (Champion champion : champions) {
                     if (champion.getStatus().equalsIgnoreCase("entered")) {
-                        boolean allowed = false;
+                    	// check champion authorisation to this challenge
+                        boolean authorised = false;
                         if (challengeType.equals("Magic")) {
-                            allowed = champion.getChallengeAuthorisation()[0];
+                        	authorised = champion.getChallengeAuthorisation()[0];
                         } else if (challengeType.equals("Fight")) {
-                            allowed = champion.getChallengeAuthorisation()[1];
+                        	authorised = champion.getChallengeAuthorisation()[1];
                         } else if (challengeType.equals("Mystery")) {
-                            allowed = champion.getChallengeAuthorisation()[2];
+                        	authorised = champion.getChallengeAuthorisation()[2];
                         }
-                        if (allowed) {
+                        if (authorised) {
                             if (champion.getSkillLevel() >= challenge.getSkillReq()) {
+                            	// challenge won
+                            	treasury += challenge.getReward();
                                 return 0;
                             } else {
+                            	// challenge lost due to skill level
+                            	treasury -= challenge.getReward();
                                 return 2;
                             }
                         }
                     }
-		}
+                    // challenge lost due to unavailable champion
+                    treasury -= challenge.getReward();
+                    return 1;
+                }
             }
         }
+        // challenge not found
         return -1;
     }
 
@@ -310,7 +327,7 @@ public class Tournament implements TOC
     {   
         String toReturn = "";
         for (Challenge challenge: challenges) {
-            toReturn += challenge.toString();
+            toReturn += challenge.toString() + "\n";
         }
         return toReturn;
     }
