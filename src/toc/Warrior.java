@@ -15,7 +15,8 @@ public class Warrior extends Champion{
 	
 	@Override
 	public String getExtras() {
-		return "\n Weapon: " + weapon;
+		return "\n Weapon: " + weapon
+                       + "\n Class: " + "Warrior";
 	}
         public boolean[] getChallengeAuthorisation () {
             return new boolean[] {false, true, false};
