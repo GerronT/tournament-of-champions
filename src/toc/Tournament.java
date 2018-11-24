@@ -13,6 +13,7 @@ public class Tournament implements TOC
 {
     private String playerName;
     private int treasury = 1000;
+    private boolean isDefeated = false;
     
     private String fileName = "tournament";
     
@@ -55,6 +56,7 @@ public class Tournament implements TOC
     {
     	String ss = "";
     	ss += "Player Name: " + this.playerName;
+        ss += "\n Status: " + (this.isDefeated ? "Defeated" : "Is OK");
     	ss += "\n\nTreasury: " + getMoney();
     	ss += "\n\nChampions in Reserve: \n" + getReserve();
     	ss += "\nChampions in Team: \n" + getTeam();
@@ -181,8 +183,11 @@ public class Tournament implements TOC
     public boolean isInPlayersTeam(String nme)
     {
     	for (Champion champion: champions) {
-    		if (champion.getStatus().equals("Entered"))
+            if (champion.getChampionName().equals(nme)) {
+    		if (champion.getStatus().equals("Entered")) {
     			return true;
+                }
+            }
     	}
         return false;
     }
@@ -290,18 +295,42 @@ public class Tournament implements TOC
                             } else {
                             	// challenge lost due to skill level
                             	treasury -= challenge.getReward();
-                                return 2;
+                                champion.setStatus("Dead");
+                                if (testIfDefeated()) {
+                                    return 3;
+                                } else {
+                                    return 2;
+                                }
                             }
                         }
                     }
-                    // challenge lost due to unavailable champion
-                    treasury -= challenge.getReward();
-                    return 1;
                 }
+                // challenge lost due to unavailable champion
+                    treasury -= challenge.getReward();
+                    if (testIfDefeated()) {
+                        return 3;
+                    } else {
+                        return 1;
+                    }
             }
         }
         // challenge not found
         return -1;
+    }
+    /** returns true if the player is defeated, and sets their isdefeated status to defeated.
+     * @return true if the player has reached a defeated state
+     **/
+    private boolean testIfDefeated () {
+        if (treasury < 0) {
+            for (Champion champion : champions) {
+                if (champion.getStatus().equalsIgnoreCase("entered")) {
+                    return false;
+                }
+            }
+            this.isDefeated = true;
+            return true;
+        }
+        return false;
     }
 
     /** Provides a String representation of an challenge given by 
