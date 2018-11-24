@@ -14,7 +14,7 @@ public class Warrior extends Champion{
 	}
 	
 	@Override
-	public String getExtras() {
+	public String getExtraDetails() {
 		return "\n Weapon: " + weapon
                        + "\n Class: " + "Warrior";
 	}

@@ -13,7 +13,7 @@ public class Tournament implements TOC
 {
     private String playerName;
     private int treasury = 1000;
-    private boolean isDefeated = false;
+    private boolean playerDefeated = false;
     
     private String fileName = "tournament";
     
@@ -55,10 +55,11 @@ public class Tournament implements TOC
     public String toString()
     {
     	String ss = "";
-    	ss += "Player Name: " + this.playerName;
-        ss += "\n Status: " + (this.isDefeated ? "Defeated" : "Is OK");
-    	ss += "\n\nTreasury: " + getMoney();
-    	ss += "\n\nChampions in Reserve: \n" + getReserve();
+    	ss += "Player Information:";
+    	ss += "\nName: " + this.playerName;
+        ss += "\n Status: " + (this.playerDefeated ? "Defeated" : "Is OK");
+    	ss += "\n Treasury: " + getMoney() +" Gulds\n";
+    	ss += "\nChampions in Reserve: \n" + getReserve();
     	ss += "\nChampions in Team: \n" + getTeam();
     	ss += "\nList of Challenges: \n" + getAllChallenges();
         return ss;
@@ -74,12 +75,14 @@ public class Tournament implements TOC
     {
     	boolean foundChampion = false;
     	for (Champion champion : champions) {
-    		if (champion.getStatus().equals("Entered"))
+    		if (champion.getStatus().equals(ChampionState.ACTIVE.toString()))
     			foundChampion = true;
     	}
     	
-    	if (treasury <= 0 && foundChampion) 
+    	if (treasury <= 0 && !foundChampion) {
+    		this.playerDefeated = true;
     		return true;
+    	}
     	
         return false;
     }
@@ -100,7 +103,7 @@ public class Tournament implements TOC
     {   
     	String ss = "";
 		for (Champion champion : champions) {
-			if (champion.getStatus().equals("Waiting"))
+			if (champion.getStatus().equals(ChampionState.WAITING.toString()))
 				ss += champion.getChampionDetails() + "\n";
 		}
 		return ss;
@@ -112,11 +115,11 @@ public class Tournament implements TOC
     public String findChampionInReserve(String nme)
     {
     	for (Champion champion : champions) {
-    		if (champion.getStatus().equals("Waiting"))
+    		if (champion.getStatus().equals(ChampionState.WAITING.toString()))
     			if (champion.getChampionName().equalsIgnoreCase(nme))
     				return champion.getChampionDetails() + "\n";
 		}
-    	return "No Champion found with the name \"" + nme + "\"";
+    	return "No Champion found with the name \"" + nme + "\" in reserve";
     }
     
     /** Returns details of any champion with the given name
@@ -157,13 +160,13 @@ public class Tournament implements TOC
     public int enterChampion(String nme)
     {
 		for (Champion champion : champions) {
-			if (champion.getChampionName().equals(nme)) {
-				if (!champion.getStatus().equals("Waiting"))
+			if (champion.getChampionName().equalsIgnoreCase(nme)) {
+				if (!champion.getStatus().equals(ChampionState.WAITING.toString()))
 					return 1;
 				int champEF = champion.getEntryFee();
 				if (treasury >= champEF) {
 					treasury -= champEF;
-					champion.setStatus("Entered");
+					champion.setStatus(ChampionState.ACTIVE.toString());
 					return 0;
 				} else {
 					return 2;
@@ -183,9 +186,9 @@ public class Tournament implements TOC
     public boolean isInPlayersTeam(String nme)
     {
     	for (Champion champion: champions) {
-            if (champion.getChampionName().equals(nme)) {
-    		if (champion.getStatus().equals("Entered")) {
-    			return true;
+            if (champion.getChampionName().equalsIgnoreCase(nme)) {
+            	if (champion.getStatus().equals(ChampionState.ACTIVE.toString())) {
+            		return true;
                 }
             }
     	}
@@ -204,13 +207,13 @@ public class Tournament implements TOC
     {
     	for (Champion champion : champions) {
     		if (champion.getChampionName().equalsIgnoreCase(nme)) {
-    			if (champion.getStatus().equals("Dead")) {
+    			if (champion.getStatus().equals(ChampionState.DEAD.toString())) {
     				return 1;
-    			} else if (champion.getStatus().equals("Waiting")) {
+    			} else if (champion.getStatus().equals(ChampionState.WAITING.toString())) {
     				return 2;
     			} else {
     				treasury += (champion.getEntryFee() / 2);
-    				champion.setStatus("Waiting");
+    				champion.setStatus(ChampionState.WAITING.toString());
     				return 0;
     			}
     		}
@@ -230,7 +233,7 @@ public class Tournament implements TOC
     	int champCount = 0;
     	String ss = "";
 		for (Champion champion : champions) {
-			if (champion.getStatus().equals("Entered")) {
+			if (champion.getStatus().equals(ChampionState.ACTIVE.toString())) {
 				ss += champion.getChampionDetails() + "\n";
 				champCount ++;
 			}
@@ -277,14 +280,14 @@ public class Tournament implements TOC
                 String challengeType = challenge.getType();
                 // search for champions in team
                 for (Champion champion : champions) {
-                    if (champion.getStatus().equalsIgnoreCase("entered")) {
+                    if (champion.getStatus().equals(ChampionState.ACTIVE.toString())) {
                     	// check champion authorisation to this challenge
                         boolean authorised = false;
-                        if (challengeType.equals("Magic")) {
+                        if (challengeType.equals(ChallengeType.MAGIC.toString())) {
                         	authorised = champion.getChallengeAuthorisation()[0];
-                        } else if (challengeType.equals("Fight")) {
+                        } else if (challengeType.equals(ChallengeType.FIGHT.toString())) {
                         	authorised = champion.getChallengeAuthorisation()[1];
-                        } else if (challengeType.equals("Mystery")) {
+                        } else if (challengeType.equals(ChallengeType.MYSTERY.toString())) {
                         	authorised = champion.getChallengeAuthorisation()[2];
                         }
                         if (authorised) {
@@ -295,8 +298,8 @@ public class Tournament implements TOC
                             } else {
                             	// challenge lost due to skill level
                             	treasury -= challenge.getReward();
-                                champion.setStatus("Dead");
-                                if (testIfDefeated()) {
+                                champion.setStatus(ChampionState.DEAD.toString());
+                                if (isDefeated()) {
                                     return 3;
                                 } else {
                                     return 2;
@@ -307,7 +310,7 @@ public class Tournament implements TOC
                 }
                 // challenge lost due to unavailable champion
                     treasury -= challenge.getReward();
-                    if (testIfDefeated()) {
+                    if (isDefeated()) {
                         return 3;
                     } else {
                         return 1;
@@ -316,21 +319,6 @@ public class Tournament implements TOC
         }
         // challenge not found
         return -1;
-    }
-    /** returns true if the player is defeated, and sets their isdefeated status to defeated.
-     * @return true if the player has reached a defeated state
-     **/
-    private boolean testIfDefeated () {
-        if (treasury < 0) {
-            for (Champion champion : champions) {
-                if (champion.getStatus().equalsIgnoreCase("entered")) {
-                    return false;
-                }
-            }
-            this.isDefeated = true;
-            return true;
-        }
-        return false;
     }
 
     /** Provides a String representation of an challenge given by 
