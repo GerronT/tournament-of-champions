@@ -11,7 +11,7 @@ public class Champion {
 		this.championName = championName;
 		this.skillLevel = skillLevel;
 		this.entryFee = entryFee;
-		this.status = "Waiting";
+		this.status = ChampionState.WAITING.toString();
 		
 	}
 	
@@ -39,11 +39,11 @@ public class Champion {
 		return "Name: " + championName 
 				+ "\n Skill Level: " + skillLevel 
 				+ "\n Entry Fee: " + entryFee 
-				+ "\n Status: " + status + getExtras() + "\n";
+				+ "\n Status: " + status + getExtraDetails() + "\n";
 	}
 
-	public String getExtras() {
-		return null;
+	public String getExtraDetails() {
+		return "";
 	}
 	
 	public boolean[] getChallengeAuthorisation () {

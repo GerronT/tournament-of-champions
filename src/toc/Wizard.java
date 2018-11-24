@@ -17,7 +17,7 @@ public class Wizard extends Champion{
 	}
 	
 	@Override
-	public String getExtras() {
+	public String getExtraDetails() {
 		return "\n Necromancer: " + necromancer 
 				+ "\n Speciality: " + speciality
                         + "\n Class: " + "Wizard";

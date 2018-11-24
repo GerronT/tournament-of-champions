@@ -10,7 +10,7 @@ public class Dragon extends Champion{
 	}
 	
 	@Override
-	public String getExtras() {
+	public String getExtraDetails() {
 		return "\n Talks: " + talks
                         + "\n Class: " + "Dragon";
 	}

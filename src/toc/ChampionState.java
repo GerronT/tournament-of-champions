@@ -10,7 +10,7 @@ import java.io.*;
  */
 public enum ChampionState implements Serializable
 {
-    WAITING(" In reserve"), ACTIVE(" Active"),  DEAD (" Dead");
+    WAITING("In reserve"), ACTIVE("Active"),  DEAD ("Dead");
     private String state;
     
     private ChampionState(String st)

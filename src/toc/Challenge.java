@@ -38,10 +38,10 @@ public class Challenge {
         
         @Override
         public String toString() {
-            return "Number: " + challengeNo
-            + "\nType: " + type
-            + "\nEnemy Name: " + enemy
-            + "\nSkill level required: " + skillLevelReq
-            + "\nReward: " + reward + "\n";
+            return "Challenge No.: " + challengeNo
+            + "\n Type: " + type
+            + "\n Enemy Name: " + enemy
+            + "\n Skill level required: " + skillLevelReq
+            + "\n Reward: " + reward + "\n";
         }
 }
