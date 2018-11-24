@@ -366,7 +366,7 @@ public class Tournament implements TOC
     //*******************************************************************************
     private void setupChampions()
     {
-    	champions.add(new Wizard("Ganfrank", 7, true, "transmuation"));
+    	champions.add(new Wizard("Ganfrank", 7, true, "transmutation"));
 		champions.add(new Wizard("Rudolf", 6, true, "invisibility"));
 		champions.add(new Warrior("Elblond", 150, "sword"));
 		champions.add(new Warrior("Flimsi", 200, "bow"));
