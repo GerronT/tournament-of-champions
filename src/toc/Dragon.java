@@ -1,6 +1,8 @@
 package toc;
 
-public class Dragon extends Champion{
+import java.io.Serializable;
+
+public class Dragon extends Champion implements Serializable{
 
 	private boolean talks;
 	

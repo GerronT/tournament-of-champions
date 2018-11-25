@@ -1,6 +1,8 @@
 package toc;
 
-public class Champion {
+import java.io.Serializable;
+
+public class Champion implements Serializable {
 	
 	private String championName;
 	private int skillLevel;

@@ -1,6 +1,8 @@
 package toc;
 
-public class Challenge {
+import java.io.Serializable;
+
+public class Challenge implements Serializable{
 	private int challengeNo;
         private String type;
         private String enemy;

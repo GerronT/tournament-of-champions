@@ -1,6 +1,8 @@
 package toc;
 
-public class Warrior extends Champion{
+import java.io.Serializable;
+
+public class Warrior extends Champion implements Serializable{
 	
 	private String weapon;
 	
