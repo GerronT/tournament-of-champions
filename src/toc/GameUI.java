@@ -11,6 +11,8 @@ public class GameUI
 {
     private static Tournament tr ;
     private static Scanner myIn = new Scanner(System.in);
+    //private static String filePath = "C:/Users/regno/Documents/TOC-Part-2/SaveFiles/";
+    private static final File savePath = new File(System.getProperty("user.dir") + "/SaveFiles/");
 
     public static void main(String[] args)
     {
@@ -128,17 +130,41 @@ public class GameUI
                 {
                     System.out.println(tr.toString());
                 }
-//                 else if (choice == 8) // Task 4.4 only
-//                 {
-//                     System.out.println("Write to file");
-//                     tr.saveGame("olenka.txt");
-//                 }
-//                 else if (choice == 9) // Task 4.4 only
-//                 {
-//                     System.out.println("Restore from file");
-//                     Tournament tr2= tr.loadGame("olenka.txt");
-//                     System.out.println(tr2.toString());               
-//                 }
+                else if (choice == 8) // Task 4.4 only
+                {
+                    System.out.println("Write to file");
+                    System.out.println("Enter the name of your save file");
+                    String saveFile = (myIn.nextLine()).trim();
+                    
+                	if (!savePath.exists()) {
+                		savePath.mkdir();
+                	}
+                	
+                    tr.saveGame(new File(savePath, saveFile).toString());
+                    System.out.println("Game saved successfully!");
+                }
+                else if (choice == 9) // Task 4.4 only
+                {
+                    System.out.println("Restore from file");
+                    if (!savePath.exists()) {
+                		System.out.println("No Save files exists yet");
+                	} else {
+                		System.out.println("Here's the list of save files:\n" + Utility.listFiles(savePath));
+                		System.out.println("Enter the name of the save file to load");
+                		String loadFile = (myIn.nextLine()).trim();
+                    
+                		// output save files in save directory
+                		Tournament tr2= tr.loadGame(new File(savePath, loadFile).toString());
+                		// overwrite current game if save file loaded correctly
+                		if (tr2 != null) {
+                			tr = tr2;
+                			System.out.println("Save file State: \n" + tr2.toString()); 
+                			System.out.println("Game loaded successfully!");
+                		} else {
+                			System.out.println("Game failed to load");
+                		}
+                	}
+                }
             }     
         }
         catch (IOException e) {System.out.println (e);}   
@@ -156,8 +182,8 @@ public class GameUI
         System.out.println("5. Fight an challenge");
         System.out.println("6. Withdraw a champion");
         System.out.println("7. View game state");
-//         System.out.println("8. Save this game");
-//         System.out.println("9. Load this game");
+        System.out.println("8. Save this game");
+        System.out.println("9. Load this game");
        
         
         while (choice < 0 || choice  > 9)

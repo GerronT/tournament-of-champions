@@ -1,6 +1,8 @@
 package toc;
 
-public class Wizard extends Champion{
+import java.io.Serializable;
+
+public class Wizard extends Champion implements Serializable{
 	
 	private boolean necromancer;
 	private String speciality;

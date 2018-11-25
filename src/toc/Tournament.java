@@ -9,7 +9,7 @@ import java.io.*;
  * @version 16/10/18
  */
 
-public class Tournament implements TOC 
+public class Tournament implements TOC, Serializable 
 {
     private String playerName;
     private int treasury = 1000;
@@ -379,29 +379,59 @@ public class Tournament implements TOC
     }
         
    
-//    // These methods are not needed until Task 4.4
-//    // ***************   file write/read  *********************
-//     /** Writes whole game to the specified file using serialisation
-//      * @param fname name of file to which game is saved
-//      */
-//     public void saveGame(String fname)
-//     {    // use serialisation
-//     
-//     /** reads all information about the game from the specified file 
-//      * and returns 
-//      * @param fname name of file storing the game
-//      * @return the game (as an Player object)
-//      */
-//     public Tournament loadGame(String fname)
-//     {   // uses object serialisation 
-//         return null;
-//     } 
-//     
-//     /** reads information about challenges from the specified file
-//      * and stores them 
-//      * @param fileName name of file storing challenges
-//      */
-//     private void loadChallenges(String fileName);
+    // These methods are not needed until Task 4.4
+    // ***************   file write/read  *********************
+     /** Writes whole game to the specified file using serialisation
+      * @param fname name of file to which game is saved
+      */
+     public void saveGame(String fname)
+     {    // use serialisation
+    	 ObjectOutputStream oos = null;
+    	 try {
+			oos  = new ObjectOutputStream(new FileOutputStream(fname));
+			oos.writeObject(this);
+		} catch (FileNotFoundException e) {
+			// Perform error logging here
+		} catch (IOException e) {
+			// Perform error logging here
+		} finally {
+			Utility.closeQuietly(oos);
+		}
+    	 
+     }
+     /** reads all information about the game from the specified file 
+      * and returns 
+      * @param fname name of file storing the game
+      * @return the game (as an Player object)
+      */
+     public Tournament loadGame(String fname)
+     {   
+    	 ObjectInputStream ois = null;
+    	 try {
+			ois  = new ObjectInputStream(new FileInputStream(fname));
+			try {
+				return (Tournament) ois.readObject();
+			} catch (ClassNotFoundException e) {
+				// Perform error logging here
+			}
+		} catch (FileNotFoundException e) {
+			// Perform error logging here
+		} catch (IOException e) {
+			// Perform error logging here
+		} finally {
+			Utility.closeQuietly(ois);
+		}
+    	
+    	 return null;
+     } 
+     
+     /** reads information about challenges from the specified file
+      * and stores them 
+      * @param fileName name of file storing challenges
+      */
+     private void loadChallenges(String fileName) {
+    	 
+     };
     
 }
 
