@@ -116,6 +116,7 @@ public class FightChallengeTest {
     } 
     
     // Wizard facing fight
+    @Test
     public void wizardFacingFightWins() {
         int expected = 0;
         game.enterChampion("Ganfrank");
@@ -150,6 +151,7 @@ public class FightChallengeTest {
     }
     
     // Wizard facing mystery
+    @Test
     public void wizardFacingMysteryWins() {
         int expected = 0;
         game.enterChampion("Ganfrank");
@@ -239,6 +241,7 @@ public class FightChallengeTest {
     }
     
     //Warrior facing mystery - not allowed
+    @Test
     public void warriorFacingMysteryNotAllowed() {
         int expected = 1;
         game.enterChampion("Argon");

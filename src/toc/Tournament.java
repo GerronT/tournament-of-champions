@@ -413,16 +413,17 @@ public class Tournament implements TOC, Serializable
 				return (Tournament) ois.readObject();
 			} catch (ClassNotFoundException e) {
 				// Perform error logging here
+                                return this;
 			}
 		} catch (FileNotFoundException e) {
 			// Perform error logging here
+                        return this;
 		} catch (IOException e) {
 			// Perform error logging here
+                        return this;
 		} finally {
 			Utility.closeQuietly(ois);
 		}
-    	
-    	 return null;
      } 
      
      /** reads information about challenges from the specified file

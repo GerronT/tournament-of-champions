@@ -119,36 +119,4 @@ public class ChampionsTest {
 
          
 
-//    
-//    @Test
-//    public void checkWarchestWhenNoFight() {
-//        int expected = 1000;
-//        int actual = game.getWarchest();
-//        assertEquals(expected, actual);
-//    }
-//    
-//    @Test
-//    public void checkWarchestAfterForceActivated() {
-//        int expected = 800;
-//        game.activateForce("IW1");
-//        int actual = game.getWarchest();
-//        assertEquals(expected, actual);
-//    }
-//    
-//    @Test
-//    public void checkForceIsNotInAsfAfterActivated() {
-//        String forceRef = "IW1";
-//        game.activateForce(forceRef);
-//        String result = game.findForceInASF(forceRef);
-//        assertTrue(result.toLowerCase().contains("no"));
-//    }
-//    
-//    @Test
-//    public void showStatusActiveForActivatedForce() {
-//        String expected = "active";
-//        game.activateForce("IW1");
-//        String actual = game.getForce("IW1");
-//        boolean result = actual.toLowerCase().contains(expected);
-//        assertTrue(result);
-//    }
 }

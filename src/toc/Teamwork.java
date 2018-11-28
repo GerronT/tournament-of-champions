@@ -16,7 +16,7 @@ public class Teamwork
         // with the details of your team
         // It will help us if the surname of programmer1 comes
         // alphabetically before the surname of programmer2
-        details[0] = "team name";
+        details[0] = "GN";
         details[1] = "Kingsbury";
         details[2] = "Nickolas";
         details[3] = "16022749";
