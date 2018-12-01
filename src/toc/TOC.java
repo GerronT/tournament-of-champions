@@ -142,8 +142,9 @@ public interface TOC extends Serializable
      **/
     public String getAllChallenges();
  
-     // These methods are not needed until Task 4.4
-     // ***************   file write/read  *********************
+
+//      These methods are not needed until Task 4.4
+//      ***************   file write/read  *********************
      /** Writes whole game to the specified file using serialisation
       * @param fname name of file to which game is saved
       */

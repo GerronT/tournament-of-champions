@@ -117,38 +117,38 @@ public class ChampionsTest {
     
     //Why were those chosen? You can add more but is it worth it ?
 
-         
+    //Tests that the get team method returns members of the team correctly.
+    @Test
+    public void ChampionInTeamNeonDisplayed() {
+        game.enterChampion("Neon");
+        String result = game.getTeam();
+        String[] xx = {"Neon","2", "false", "300","translocation", "Wizard"};
+        boolean actual = containsText(result,xx );
+        assertTrue(actual);
+    }
+    
+    // Test champion found in reserve
+    @Test
+    public void checkFoundChampionInReserve() {
+        String result = game.findChampionInReserve("Flimsi");
+        String[] xx = {"Flimsi","2", "200","bow", "Warrior"};
+        boolean actual= containsText(result,xx );
+        assertTrue(actual);
+    }
+    
+    // Test champion not found in the entire game
+    @Test
+    public void checkNotFoundInvalidChampion() {
+        String result = game.getChampionDetails("invalidChamp");
+        String xx = "No Champion found with the name \"invalidChamp\"";
+        assertTrue(result.equals(xx));
+    }
+    
+    // Test champion doesn't exist
+    @Test
+    public void checkChampionNotFound() {
+        boolean result = game.isChampion("Jerry");
+        assertFalse(result);
+    }
 
-//    
-//    @Test
-//    public void checkWarchestWhenNoFight() {
-//        int expected = 1000;
-//        int actual = game.getWarchest();
-//        assertEquals(expected, actual);
-//    }
-//    
-//    @Test
-//    public void checkWarchestAfterForceActivated() {
-//        int expected = 800;
-//        game.activateForce("IW1");
-//        int actual = game.getWarchest();
-//        assertEquals(expected, actual);
-//    }
-//    
-//    @Test
-//    public void checkForceIsNotInAsfAfterActivated() {
-//        String forceRef = "IW1";
-//        game.activateForce(forceRef);
-//        String result = game.findForceInASF(forceRef);
-//        assertTrue(result.toLowerCase().contains("no"));
-//    }
-//    
-//    @Test
-//    public void showStatusActiveForActivatedForce() {
-//        String expected = "active";
-//        game.activateForce("IW1");
-//        String actual = game.getForce("IW1");
-//        boolean result = actual.toLowerCase().contains(expected);
-//        assertTrue(result);
-//    }
 }

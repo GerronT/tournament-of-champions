@@ -142,7 +142,7 @@ public class GameGUI
             {
                 output = "No such champion";
             }
-            output = "\n" + output + "\nTreasury = £" + gp.getMoney();
+            output = "\n" + output + "\nTreasury = Â£" + gp.getMoney();
             JOptionPane.showMessageDialog(myFrame,output);    
         }
     }
@@ -173,7 +173,7 @@ public class GameGUI
             {
                 output = "\nNo such champion ";
             }
-            output = output+"\nTreasury = £" + gp.getMoney();
+            output = output+"\nTreasury = Â£" + gp.getMoney();
             JOptionPane.showMessageDialog(myFrame,output);    
         }
     }

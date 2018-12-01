@@ -158,6 +158,46 @@ public class FightSequences {
         assertEquals(expected, actual);
     }
     
-// Add your own tests    
-
+// Add your own tests 
+    
+    //Tests if the player will be defeated if they fight a challenge with no team and not enough money,
+    @Test
+    public void testIfDefeatedSinceNoTeam() {
+        int expected = 3; // 3 is returned after player is defeated
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(4);  //lose as no one available
+        int actual = game.fightChallenge(4);  //Game lost as no team found and have no money left
+        assertEquals(expected, actual);
+    }
+    
+    //Tests if the player will be defeated if they fight a challenge,
+    //but their final champion lost due to skill level and there was no money left
+    @Test
+    public void testIfDefeatedAfterLosingAChampion() {
+        int expected = 3; // 3 is returned after player is defeated
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(3);  //lose as no one available
+        game.enterChampion("Ganfrank");
+        int actual = game.fightChallenge(4); //Game lost as final champion dies and no money left
+        assertEquals(expected, actual);
+    }
+    
+    //Tests if the player status will be defeated if they fight a challenge with no team 
+    //and not enough money,
+    @Test
+    public void testPlayerDefeatedStatus() {
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(4);  //Game lost at this stage
+        String expected = "Status: Defeated";
+        String actual = game.toString();
+        assertTrue(actual.contains(expected));
+    }
+    
+    
 }

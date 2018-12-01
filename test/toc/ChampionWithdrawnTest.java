@@ -74,6 +74,7 @@ public class ChampionWithdrawnTest {
         assertTrue(actual);
     }
     
+    // Test withdrawing champion who's already in reserve.
     @Test
     public void withdrawChampionTestResult2(){
         int expected = 2;
@@ -118,5 +119,8 @@ public class ChampionWithdrawnTest {
         boolean actual = list.contains("Boggle");
         assertFalse(actual);
     }
-    //can't yet do test for withdraw dead champion
+    
+  //can't yet do test for withdraw dead champion - this test already exists in FightChallengeTest
+    // named as cantWithdrawDead()
+    
 }
