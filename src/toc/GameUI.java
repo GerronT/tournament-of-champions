@@ -25,7 +25,7 @@ public class GameUI
             System.out.println("Enter player's name");
             String s = myIn.nextLine();
             //myIn.nextLine();
-            tr = new Tournament(s); // create
+            tr = new Tournament(s, "olenka.txt"); // create
             choice = 100;
             while (choice != 0 )
             {
@@ -140,8 +140,17 @@ public class GameUI
                 		savePath.mkdir();
                 	}
                 	
-                    tr.saveGame(new File(savePath, saveFile).toString());
-                    System.out.println("Game saved successfully!");
+                	File game = new File(savePath, saveFile);
+                    if (!game.isDirectory()) {
+                    	tr.saveGame(game.toString());
+                    } 
+                    
+                    if (game.isFile()) {
+                    	System.out.println("Game saved successfully!");
+                    } else {
+                    	System.out.println("Failed to save game.");
+                    }
+
                 }
                 else if (choice == 9) // Task 4.4 only
                 {
@@ -152,11 +161,10 @@ public class GameUI
                 		System.out.println("Here's the list of save files:\n" + Utility.listFiles(savePath));
                 		System.out.println("Enter the name of the save file to load");
                 		String loadFile = (myIn.nextLine()).trim();
-                    
-                		// output save files in save directory
+                		
                 		Tournament tr2= tr.loadGame(new File(savePath, loadFile).toString());
-                		// overwrite current game if save file loaded correctly
-                		if (tr2 != null) {
+                		// check if loaded tournament changed
+                		if (tr != tr2) {
                 			tr = tr2;
                 			System.out.println("Save file State: \n" + tr2.toString()); 
                 			System.out.println("Game loaded successfully!");

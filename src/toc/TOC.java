@@ -142,23 +142,23 @@ public interface TOC extends Serializable
      **/
     public String getAllChallenges();
  
-//     // These methods are not needed until Task 4.4
-//     // ***************   file write/read  *********************
-//     /** Writes whole game to the specified file using serialisation
-//      * @param fname name of file to which game is saved
-//      */
-//     public void saveGame(String fname);
-//     
-//     /** reads all information about the game from the specified file 
-//      * and returns an TOC reference to a Tournament object
-//      * @param fname name of file storing the game
-//      * @return the game (as a Tournament object)
-//      */
-//     public TOC loadGame(String fname);
-//     
-//     /** reads information about challenges from the specified file
-//      * and stores them 
-//      * @param fileName name of file storing the challenges
-//      */
+     // These methods are not needed until Task 4.4
+     // ***************   file write/read  *********************
+     /** Writes whole game to the specified file using serialisation
+      * @param fname name of file to which game is saved
+      */
+     public void saveGame(String fname);
+     
+     /** reads all information about the game from the specified file 
+      * and returns an TOC reference to a Tournament object
+      * @param fname name of file storing the game
+      * @return the game (as a Tournament object)
+      */
+     public TOC loadGame(String fname);
+     
+     /** reads information about challenges from the specified file
+      * and stores them 
+      * @param fileName name of file storing the challenges
+      */
 //     private void loadChallenges(String fileName);
 }
