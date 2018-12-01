@@ -5,6 +5,10 @@
  */
 package toc;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,28 +49,21 @@ public class SaveLoad {
     //
     //just a local method to check a String for contents
     
+    //Tests if a saved file when loaded maintains the changed state.
     @Test
     public void testSaveLoad() {
+        File xx = new File("testFile");
         game.enterChampion("Argon");
         String result = game.toString();
-        game.saveGame("testFile");
+        game.saveGame(xx.toString());
         game = new Tournament("Nick");
-        game = game.loadGame("testFile");
+        game = game.loadGame(xx.toString());
         String actual = game.toString();
+        xx.delete();
         assertEquals(result, actual);
     }
     
-    @Test
-    public void testLoadMultiple() {
-        game.enterChampion("Argon");
-        String result = game.toString();
-        game.saveGame("testFile1");
-        game.saveGame("testFile2");
-        game = game.loadGame("testFile1");
-        String actual = game.toString();
-        assertEquals(result, actual);
-    }
-    
+    //tests that nothing is changed if an invalid file is attempted to be loaded.
     @Test
     public void testLoadInvalid() {
         game.enterChampion("Argon");

@@ -158,6 +158,34 @@ public class FightSequences {
         assertEquals(expected, actual);
     }
     
-// Add your own tests    
-
+// Add your own tests 
+    
+    //Tests if the player will be defeated if they fight a challenge with no team and not enough money,
+    @Test
+    public void testIfDefeatedSinceNoTeam() {
+        boolean expected = true;
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(4);  //lose as no one available
+        boolean actual = game.isDefeated();
+        assertEquals(expected, actual);
+    }
+    
+    //Tests if the player will be defeated if they fight a challenge, they have team remaining...
+    //But the money gained from withdrawing them isn't enough
+    @Test
+    public void testIfDefeatedWithTeam() {
+        boolean expected = true;
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(4);  //lose as no one available
+        game.fightChallenge(3);
+        game.enterChampion("Elbond");
+        game.enterChampion("Flimsi");
+        game.fightChallenge(4);  //lose as no one available
+        boolean actual = game.isDefeated();
+        assertEquals(expected, actual);
+    }
 }

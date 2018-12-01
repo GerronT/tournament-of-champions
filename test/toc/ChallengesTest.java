@@ -119,5 +119,13 @@ public class ChallengesTest {
         boolean actual = result.contains("Mystery");//&& result.contains("Ferengi");
         assertTrue(actual); 
     }
+    
+    //Test for the case where the challenge could not be found
+    @Test
+    public void getInvalidChallengeTest(){
+        String result = game.getChallenge(100);
+        boolean actual = result.contains("Challenge not found");//&& result.contains("Ferengi");
+        assertTrue(actual); 
+    }
 
 }

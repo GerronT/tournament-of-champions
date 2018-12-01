@@ -91,7 +91,7 @@ public class ChampionWithdrawnTest {
     
     @Test
     public void withdrawNoSuchChampionTestResult2(){
-        int expected = 2;
+        int expected = -1;
         int actual = game.withdrawChampion("Boggle");
         assertEquals(expected, actual);
     }

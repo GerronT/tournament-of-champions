@@ -117,6 +117,14 @@ public class ChampionsTest {
     
     //Why were those chosen? You can add more but is it worth it ?
 
-         
+    //Tests that the get team method returns members of the team correctly.
+    @Test
+    public void ChampionInTeamNeonDisplayed() {
+        game.enterChampion("Neon");
+        String result = game.getTeam();
+        String[] xx = {"Neon","2", "false", "300","translocation", "Wizard"};
+        boolean actual = containsText(result,xx );
+        assertTrue(actual);
+    }  
 
 }
