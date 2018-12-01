@@ -73,13 +73,21 @@ public class Tournament implements TOC, Serializable
      */
     public boolean isDefeated()
     {
-    	boolean foundChampion = false;
+        int treasuryTemp = treasury;
     	for (Champion champion : champions) {
-    		if (champion.getStatus().equals(ChampionState.ACTIVE.toString()))
-    			foundChampion = true;
+    		if (champion.getStatus().equals(ChampionState.ACTIVE.toString())) {
+                    if (treasuryTemp <= 0)  {
+                        treasuryTemp += champion.getEntryFee() / 2;
+                    }
+                }
     	}
     	
-    	if (treasury <= 0 && !foundChampion) {
+    	if (treasuryTemp <= 0) {
+            for (Champion champion : champions) {
+    		if (champion.getStatus().equals(ChampionState.ACTIVE.toString())) {
+                   champion.setStatus(ChampionState.DEAD.toString());
+                }
+            }
     		this.playerDefeated = true;
     		return true;
     	}
@@ -413,16 +421,17 @@ public class Tournament implements TOC, Serializable
 				return (Tournament) ois.readObject();
 			} catch (ClassNotFoundException e) {
 				// Perform error logging here
+                                return this;
 			}
 		} catch (FileNotFoundException e) {
 			// Perform error logging here
+                        return this;
 		} catch (IOException e) {
 			// Perform error logging here
+                        return this;
 		} finally {
 			Utility.closeQuietly(ois);
 		}
-    	
-    	 return null;
      } 
      
      /** reads information about challenges from the specified file

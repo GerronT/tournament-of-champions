@@ -67,7 +67,7 @@ public class GameUI
                     {
                         output = "No such champion";
                     }
-                    System.out.println("\n" + output + "\nTreasury = £" + tr.getMoney());
+                    System.out.println("\n" + output + "\nTreasury = Â£" + tr.getMoney());
                     result = -1;
                 }
                 else if (choice == 5)
@@ -99,7 +99,7 @@ public class GameUI
                     {
                         output = "No such challenge";
                     }
-                    System.out.println("\n" + output + "\nTreasury = £" + tr.getMoney());
+                    System.out.println("\n" + output + "\nTreasury = Â£" + tr.getMoney());
                     result = -1;
                 }
                 else if (choice==6)
@@ -123,7 +123,7 @@ public class GameUI
                     {
                         output = "\nNo such champion ";
                     }
-                    System.out.println(output+"\nTreasury = £" + tr.getMoney());
+                    System.out.println(output+"\nTreasury = Â£" + tr.getMoney());
                     result = -1;
                 }  
                 else if (choice==7)
