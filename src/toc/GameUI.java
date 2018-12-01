@@ -11,7 +11,6 @@ public class GameUI
 {
     private static Tournament tr ;
     private static Scanner myIn = new Scanner(System.in);
-    //private static String filePath = "C:/Users/regno/Documents/TOC-Part-2/SaveFiles/";
     private static final File savePath = new File(System.getProperty("user.dir") + "/SaveFiles/");
 
     public static void main(String[] args)

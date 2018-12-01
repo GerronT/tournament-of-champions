@@ -15,9 +15,6 @@ public class Tournament implements TOC, Serializable
     private String playerName;
     private int treasury = 1000;
     private boolean playerDefeated = false;
-    
-    private String fileName = "tournament";
-    
     private ArrayList<Champion> champions = new ArrayList<Champion>();
     private ArrayList<Challenge> challenges = new ArrayList<Challenge>();
     
@@ -371,15 +368,19 @@ public class Tournament implements TOC, Serializable
      
     private void setupChallenges()
     {
-        challenges.add(new Challenge("Magic", "Borg", 3, 100));
-        challenges.add(new Challenge("Fight", "Huns", 3, 120));
-        challenges.add(new Challenge("Mystery", "Ferengi", 3, 150));
-        challenges.add(new Challenge("Magic", "Vandal", 9, 200));
-        challenges.add(new Challenge("Mystery", "Borg" , 7, 90));
-        challenges.add(new Challenge("Fight", "Goth", 8, 45));
-        challenges.add(new Challenge("Magic", "Frank", 10, 200));
-        challenges.add(new Challenge("Fight", "Sith", 10, 170));
-        challenges.add(new Challenge("Mystery", "Cardashian", 9, 300));
+        challenges.add(new Challenge(genChalId(), "Magic", "Borg", 3, 100));
+        challenges.add(new Challenge(genChalId(), "Fight", "Huns", 3, 120));
+        challenges.add(new Challenge(genChalId(), "Mystery", "Ferengi", 3, 150));
+        challenges.add(new Challenge(genChalId(), "Magic", "Vandal", 9, 200));
+        challenges.add(new Challenge(genChalId(), "Mystery", "Borg" , 7, 90));
+        challenges.add(new Challenge(genChalId(), "Fight", "Goth", 8, 45));
+        challenges.add(new Challenge(genChalId(), "Magic", "Frank", 10, 200));
+        challenges.add(new Challenge(genChalId(), "Fight", "Sith", 10, 170));
+        challenges.add(new Challenge(genChalId(), "Mystery", "Cardashian", 9, 300));
+    }
+    
+    private int genChalId() {
+    	return challenges.size() + 1;
     }
         
    
@@ -436,7 +437,9 @@ public class Tournament implements TOC, Serializable
       */
      private void loadChallenges(String fileName) {
 		File challengeFile = new File(fileName);
-		try (BufferedReader br = new BufferedReader(new FileReader(challengeFile.toString()))) {
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(challengeFile.toString()));
 			String line;
 		    while ((line = br.readLine()) != null) {
 		    	String[] chal = line.split(",");
@@ -447,7 +450,7 @@ public class Tournament implements TOC, Serializable
 		    		//"LOAD CHALLENGES: Challenge not added. Invalid challenge type"
 		    	} else {
 		    		try {
-			    		challenges.add(new Challenge(chal[0], chal[1], Integer.parseInt(chal[2]), Integer.parseInt(chal[3])));
+			    		challenges.add(new Challenge(genChalId(), chal[0], chal[1], Integer.parseInt(chal[2]), Integer.parseInt(chal[3])));
 			    	} catch (NumberFormatException n) {
 			    		//"LOAD CHALLENGES: Challenge not added. Invalid data types found"
 			    	}
@@ -457,6 +460,8 @@ public class Tournament implements TOC, Serializable
 			//"LOAD CHALLENGES: failed to load challenges. Invalid file path"
 		} catch (IOException ioe) {
 			//"LOAD CHALLENGES: failed to load challenges. Invalid file name provided"
+		} finally {
+			Utility.closeQuietly(br);
 		}
      };
      

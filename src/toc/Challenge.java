@@ -8,16 +8,14 @@ public class Challenge implements Serializable{
         private String enemy;
         private int skillLevelReq;
         private int reward;
-        public static int initialChNo = 1;
         
 	
-	public Challenge(String type, String enemy, int skillReq, int reward) {
-				this.challengeNo = initialChNo;
-				initialChNo++;
-                this.type = type; 
-                this.enemy = enemy; 
-                this.skillLevelReq = skillReq; 
-                this.reward = reward;
+	public Challenge(int n, String type, String enemy, int skillReq, int reward) {
+		this.challengeNo = n;
+        this.type = type; 
+        this.enemy = enemy; 
+        this.skillLevelReq = skillReq; 
+        this.reward = reward;
 	}
 	
 	public int getChallengeNo() {
