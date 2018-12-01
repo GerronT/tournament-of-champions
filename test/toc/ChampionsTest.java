@@ -125,6 +125,30 @@ public class ChampionsTest {
         String[] xx = {"Neon","2", "false", "300","translocation", "Wizard"};
         boolean actual = containsText(result,xx );
         assertTrue(actual);
-    }  
+    }
+    
+    // Test champion found in reserve
+    @Test
+    public void checkFoundChampionInReserve() {
+        String result = game.findChampionInReserve("Flimsi");
+        String[] xx = {"Flimsi","2", "200","bow", "Warrior"};
+        boolean actual= containsText(result,xx );
+        assertTrue(actual);
+    }
+    
+    // Test champion not found in the entire game
+    @Test
+    public void checkNotFoundInvalidChampion() {
+        String result = game.getChampionDetails("invalidChamp");
+        String xx = "No Champion found with the name \"invalidChamp\"";
+        assertTrue(result.equals(xx));
+    }
+    
+    // Test champion doesn't exist
+    @Test
+    public void checkChampionNotFound() {
+        boolean result = game.isChampion("Jerry");
+        assertFalse(result);
+    }
 
 }

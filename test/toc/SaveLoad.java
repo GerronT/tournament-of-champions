@@ -63,9 +63,9 @@ public class SaveLoad {
         assertEquals(result, actual);
     }
     
-    //tests that nothing is changed if an invalid file is attempted to be loaded.
+    //tests that nothing is changed if a non-existent file is attempted to be loaded.
     @Test
-    public void testLoadInvalid() {
+    public void testLoadMissingFile() {
         game.enterChampion("Argon");
         String result = game.toString();
         game = game.loadGame("noneExistant");

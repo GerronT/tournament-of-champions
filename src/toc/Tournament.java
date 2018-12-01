@@ -73,21 +73,13 @@ public class Tournament implements TOC, Serializable
      */
     public boolean isDefeated()
     {
-        int treasuryTemp = treasury;
+    	boolean foundChampion = false;
     	for (Champion champion : champions) {
-    		if (champion.getStatus().equals(ChampionState.ACTIVE.toString())) {
-                    if (treasuryTemp <= 0)  {
-                        treasuryTemp += champion.getEntryFee() / 2;
-                    }
-                }
+    		if (champion.getStatus().equals(ChampionState.ACTIVE.toString()))
+    			foundChampion = true;
     	}
     	
-    	if (treasuryTemp <= 0) {
-            for (Champion champion : champions) {
-    		if (champion.getStatus().equals(ChampionState.ACTIVE.toString())) {
-                   champion.setStatus(ChampionState.DEAD.toString());
-                }
-            }
+    	if (treasury <= 0 && !foundChampion) {
     		this.playerDefeated = true;
     		return true;
     	}
@@ -367,7 +359,7 @@ public class Tournament implements TOC, Serializable
 		champions.add(new Warrior("Elblond", 150, "sword"));
 		champions.add(new Warrior("Flimsi", 200, "bow"));
 		champions.add(new Dragon("Drabina", false));
-		champions.add(new Dragon("Golum", false));
+		champions.add(new Dragon("Golum", true));
 		champions.add(new Warrior("Argon", 900, "mace"));
 		champions.add(new Wizard("Neon", 2, false, "translocation"));
 		champions.add(new Dragon("Xenon", true));
@@ -421,17 +413,16 @@ public class Tournament implements TOC, Serializable
 				return (Tournament) ois.readObject();
 			} catch (ClassNotFoundException e) {
 				// Perform error logging here
-                                return this;
 			}
 		} catch (FileNotFoundException e) {
 			// Perform error logging here
-                        return this;
 		} catch (IOException e) {
 			// Perform error logging here
-                        return this;
 		} finally {
 			Utility.closeQuietly(ois);
 		}
+    	 
+    	return this;
      } 
      
      /** reads information about challenges from the specified file
