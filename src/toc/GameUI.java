@@ -66,7 +66,7 @@ public class GameUI
                     {
                         output = "No such champion";
                     }
-                    System.out.println("\n" + output + "\nTreasury = £" + tr.getMoney());
+                    System.out.println("\n" + output + "\nTreasury = Â£" + tr.getMoney());
                     result = -1;
                 }
                 else if (choice == 5)
@@ -102,13 +102,14 @@ public class GameUI
                     }
                     else if (result ==3)
                     {
-                        output = "Challenge lost. You lose the game ";
+                        System.out.println("\nChallenge lost. You lose the game \nTreasury = Â£" + tr.getMoney());
+                        break;
                     }
                     else 
                     {
                         output = "No such challenge";
                     }
-                    System.out.println("\n" + output + "\nTreasury = £" + tr.getMoney());
+                    System.out.println("\n" + output + "\nTreasury = Â£" + tr.getMoney());
                     result = -1;
                 }
                 else if (choice==6)
@@ -132,7 +133,7 @@ public class GameUI
                     {
                         output = "\nNo such champion ";
                     }
-                    System.out.println(output+"\nTreasury = £" + tr.getMoney());
+                    System.out.println(output+"\nTreasury = Â£" + tr.getMoney());
                     result = -1;
                 }  
                 else if (choice==7)
