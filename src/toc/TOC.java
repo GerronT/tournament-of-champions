@@ -142,6 +142,7 @@ public interface TOC extends Serializable
      **/
     public String getAllChallenges();
  
+
 //      These methods are not needed until Task 4.4
 //      ***************   file write/read  *********************
      /** Writes whole game to the specified file using serialisation
@@ -160,5 +161,5 @@ public interface TOC extends Serializable
       * and stores them 
       * @param fileName name of file storing the challenges
       */
-     //private void loadChallenges(String fileName);
+//     private void loadChallenges(String fileName);
 }

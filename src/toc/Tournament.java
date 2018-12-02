@@ -1,5 +1,6 @@
 package toc;
 import java.util.*;
+import java.util.logging.*;
 import java.io.*;
 /**
  * This class implements the behaviour expected from the WAM
@@ -14,11 +15,9 @@ public class Tournament implements TOC, Serializable
     private String playerName;
     private int treasury = 1000;
     private boolean playerDefeated = false;
-    
-    private String fileName = "tournament";
-    
     private ArrayList<Champion> champions = new ArrayList<Champion>();
     private ArrayList<Challenge> challenges = new ArrayList<Challenge>();
+    
 
 //**************** TOC ************************** 
     /** Constructor requires the name of the player
@@ -28,7 +27,7 @@ public class Tournament implements TOC, Serializable
     {
     	this.playerName = pl;
     	setupChampions();
-    	setupChallenges();
+    	setupChallenges();	
     }
     
     /** Constructor requires the name of the player and the
@@ -38,8 +37,9 @@ public class Tournament implements TOC, Serializable
      */  
     public Tournament(String pl, String filename)  //Task 3
     {
-    	this(pl);
-    	this.fileName = filename;
+    	this.playerName = pl;
+    	setupChampions();
+    	loadChallenges(filename);
     }
     
     
@@ -54,6 +54,7 @@ public class Tournament implements TOC, Serializable
      **/
     public String toString()
     {
+    	
     	String ss = "";
     	ss += "Player Information:";
     	ss += "\nName: " + this.playerName;
@@ -367,15 +368,19 @@ public class Tournament implements TOC, Serializable
      
     private void setupChallenges()
     {
-        challenges.add(new Challenge(1, "Magic", "Borg", 3, 100));
-        challenges.add(new Challenge(2, "Fight", "Huns", 3, 120));
-        challenges.add(new Challenge(3, "Mystery", "Ferengi", 3, 150));
-        challenges.add(new Challenge(4, "Magic", "Vandal", 9, 200));
-        challenges.add(new Challenge(5, "Mystery", "Borg" , 7, 90));
-        challenges.add(new Challenge(6, "Fight", "Goth", 8, 45));
-        challenges.add(new Challenge(7, "Magic", "Frank", 10, 200));
-        challenges.add(new Challenge(8, "Fight", "Sith", 10, 170));
-        challenges.add(new Challenge(9, "Mystery", "Cardashian", 9, 300));
+        challenges.add(new Challenge(genChalId(), "Magic", "Borg", 3, 100));
+        challenges.add(new Challenge(genChalId(), "Fight", "Huns", 3, 120));
+        challenges.add(new Challenge(genChalId(), "Mystery", "Ferengi", 3, 150));
+        challenges.add(new Challenge(genChalId(), "Magic", "Vandal", 9, 200));
+        challenges.add(new Challenge(genChalId(), "Mystery", "Borg" , 7, 90));
+        challenges.add(new Challenge(genChalId(), "Fight", "Goth", 8, 45));
+        challenges.add(new Challenge(genChalId(), "Magic", "Frank", 10, 200));
+        challenges.add(new Challenge(genChalId(), "Fight", "Sith", 10, 170));
+        challenges.add(new Challenge(genChalId(), "Mystery", "Cardashian", 9, 300));
+    }
+    
+    private int genChalId() {
+    	return challenges.size() + 1;
     }
         
    
@@ -385,15 +390,16 @@ public class Tournament implements TOC, Serializable
       * @param fname name of file to which game is saved
       */
      public void saveGame(String fname)
-     {    // use serialisation
+     {    
+    	 // use serialisation
     	 ObjectOutputStream oos = null;
     	 try {
 			oos  = new ObjectOutputStream(new FileOutputStream(fname));
 			oos.writeObject(this);
-		} catch (FileNotFoundException e) {
-			// Perform error logging here
-		} catch (IOException e) {
-			// Perform error logging here
+		} catch (FileNotFoundException fnf) {
+			//"SAVE GAME: save failed. Invalid file path"
+		} catch (IOException io) {
+			//"SAVE GAME: save failed. invalid file name provided"
 		} finally {
 			Utility.closeQuietly(oos);
 		}
@@ -411,18 +417,18 @@ public class Tournament implements TOC, Serializable
 			ois  = new ObjectInputStream(new FileInputStream(fname));
 			try {
 				return (Tournament) ois.readObject();
-			} catch (ClassNotFoundException e) {
-				// Perform error logging here
+			} catch (ClassNotFoundException cnf) {
+				//"LOAD GAME: load failed. Invalid casting class"
 			}
-		} catch (FileNotFoundException e) {
-			// Perform error logging here
-		} catch (IOException e) {
-			// Perform error logging here
+		} catch (FileNotFoundException fnf) {
+			//Level.INFO, "LOAD GAME: load failed. Load file doesn't exist"
+		} catch (IOException io) {
+			//"LOAD GAME: load failed. Invalid file name provided"
 		} finally {
 			Utility.closeQuietly(ois);
-		}
-    	 
-    	return this;
+		}	
+    	 return this;
+
      } 
      
      /** reads information about challenges from the specified file
@@ -430,8 +436,44 @@ public class Tournament implements TOC, Serializable
       * @param fileName name of file storing challenges
       */
      private void loadChallenges(String fileName) {
-    	 
+		File challengeFile = new File(fileName);
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(challengeFile.toString()));
+			String line;
+		    while ((line = br.readLine()) != null) {
+		    	String[] chal = line.split(",");
+		    	if ((chal.length < 4)) {
+		    		//"LOAD CHALLENGES: Challenge not added. Incomplete information."
+		    	}
+		    	else if (!isChallengeType(chal[0])) {
+		    		//"LOAD CHALLENGES: Challenge not added. Invalid challenge type"
+		    	} else {
+		    		try {
+			    		challenges.add(new Challenge(genChalId(), chal[0], chal[1], Integer.parseInt(chal[2]), Integer.parseInt(chal[3])));
+			    	} catch (NumberFormatException n) {
+			    		//"LOAD CHALLENGES: Challenge not added. Invalid data types found"
+			    	}
+		    	}
+		    }
+		} catch (FileNotFoundException fnf) {
+			//"LOAD CHALLENGES: failed to load challenges. Invalid file path"
+		} catch (IOException ioe) {
+			//"LOAD CHALLENGES: failed to load challenges. Invalid file name provided"
+		} finally {
+			Utility.closeQuietly(br);
+		}
      };
+     
+     private boolean isChallengeType(String type) {
+    	 for (ChallengeType cT: ChallengeType.values()) {
+    		 if (cT.name().equalsIgnoreCase(type)) {
+    			 return true;
+    		 }
+    	 }
+    	 return false;
+    	 
+     }
     
 }
 

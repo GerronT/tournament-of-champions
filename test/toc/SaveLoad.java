@@ -65,10 +65,10 @@ public class SaveLoad {
     
     //tests that nothing is changed if a non-existent file is attempted to be loaded.
     @Test
-    public void testLoadMissingFile() {
+    public void testLoadMissingSaveFile() {
         game.enterChampion("Argon");
         String result = game.toString();
-        game = game.loadGame("noneExistant");
+        game = game.loadGame("noneExistent");
         String actual = game.toString();
         assertEquals(result, actual);
     }

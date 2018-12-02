@@ -11,11 +11,11 @@ public class Challenge implements Serializable{
         
 	
 	public Challenge(int n, String type, String enemy, int skillReq, int reward) {
-				this.challengeNo = n; 
-                this.type = type; 
-                this.enemy = enemy; 
-                this.skillLevelReq = skillReq; 
-                this.reward = reward;
+		this.challengeNo = n;
+        this.type = type; 
+        this.enemy = enemy; 
+        this.skillLevelReq = skillReq; 
+        this.reward = reward;
 	}
 	
 	public int getChallengeNo() {

@@ -1,5 +1,6 @@
 package toc;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,6 +34,17 @@ public class Utility {
 		}	
 	}
 	
+	public static void closeQuietly(BufferedReader br) {
+		if (br != null) {
+			try {
+				br.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public static String listFiles(File path) {
 		File[] listOfFiles = path.listFiles();
 		String fileList = "";
@@ -44,6 +56,14 @@ public class Utility {
 		return fileList;
 	}
 	
+	//a local method to check a String for contents - not a test as no @test
+    public static boolean containsText(String text, String[] str) {
+        boolean result = true;
+        for (String temp : str) {
+            result = result && (text.toLowerCase()).contains(temp.toLowerCase());
+        }
+        return result;
+    }
 	
 
 }

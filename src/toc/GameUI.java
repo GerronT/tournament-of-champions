@@ -11,7 +11,6 @@ public class GameUI
 {
     private static Tournament tr ;
     private static Scanner myIn = new Scanner(System.in);
-    //private static String filePath = "C:/Users/regno/Documents/TOC-Part-2/SaveFiles/";
     private static final File savePath = new File(System.getProperty("user.dir") + "/SaveFiles/");
 
     public static void main(String[] args)
@@ -25,7 +24,7 @@ public class GameUI
             System.out.println("Enter player's name");
             String s = myIn.nextLine();
             //myIn.nextLine();
-            tr = new Tournament(s); // create
+            tr = new Tournament(s, "olenka.txt"); // create
             choice = 100;
             while (choice != 0 )
             {
@@ -67,14 +66,24 @@ public class GameUI
                     {
                         output = "No such champion";
                     }
-                    System.out.println("\n" + output + "\nTreasury = Â£" + tr.getMoney());
+                    System.out.println("\n" + output + "\nTreasury = £" + tr.getMoney());
                     result = -1;
                 }
                 else if (choice == 5)
                 {
-                    System.out.println("Enter number of the challenge");
-                    String chal = myIn.nextLine();
-                    int number = Integer.parseInt(chal);
+                	int number = -1;
+                	while (true) {
+                		try {
+                			System.out.println("Enter number of the challenge");
+                			String chal = myIn.nextLine();
+                			number = Integer.parseInt(chal);
+                			break;
+                		} catch (NumberFormatException nf) {
+                			System.out.println("Invalid input. Enter a valid number");
+                			continue;
+                		}
+                	}
+                    
                     if (tr.isChallenge(number))
                     {
                         result = tr.fightChallenge(number);
@@ -99,7 +108,7 @@ public class GameUI
                     {
                         output = "No such challenge";
                     }
-                    System.out.println("\n" + output + "\nTreasury = Â£" + tr.getMoney());
+                    System.out.println("\n" + output + "\nTreasury = £" + tr.getMoney());
                     result = -1;
                 }
                 else if (choice==6)
@@ -123,7 +132,7 @@ public class GameUI
                     {
                         output = "\nNo such champion ";
                     }
-                    System.out.println(output+"\nTreasury = Â£" + tr.getMoney());
+                    System.out.println(output+"\nTreasury = £" + tr.getMoney());
                     result = -1;
                 }  
                 else if (choice==7)
@@ -140,8 +149,17 @@ public class GameUI
                 		savePath.mkdir();
                 	}
                 	
-                    tr.saveGame(new File(savePath, saveFile).toString());
-                    System.out.println("Game saved successfully!");
+                	File game = new File(savePath, saveFile);
+                    if (!game.isDirectory()) {
+                    	tr.saveGame(game.toString());
+                    } 
+                    
+                    if (game.isFile()) {
+                    	System.out.println("Game saved successfully!");
+                    } else {
+                    	System.out.println("Failed to save game.");
+                    }
+
                 }
                 else if (choice == 9) // Task 4.4 only
                 {
@@ -152,11 +170,10 @@ public class GameUI
                 		System.out.println("Here's the list of save files:\n" + Utility.listFiles(savePath));
                 		System.out.println("Enter the name of the save file to load");
                 		String loadFile = (myIn.nextLine()).trim();
-                    
-                		// output save files in save directory
+                		
                 		Tournament tr2= tr.loadGame(new File(savePath, loadFile).toString());
-                		// overwrite current game if save file loaded correctly
-                		if (tr2 != null) {
+                		// check if loaded tournament changed
+                		if (tr != tr2) {
                 			tr = tr2;
                 			System.out.println("Save file State: \n" + tr2.toString()); 
                 			System.out.println("Game loaded successfully!");
@@ -184,14 +201,22 @@ public class GameUI
         System.out.println("7. View game state");
         System.out.println("8. Save this game");
         System.out.println("9. Load this game");
-       
         
-        while (choice < 0 || choice  > 9)
+        while (true)
         {
-            System.out.println("Enter the number of your choice");
-            choice =  myIn.nextInt();
+        	try 
+        	{
+        		while (choice < 0 || choice > 9) {
+        			System.out.println("Enter the number of your choice");
+        			Scanner userIn = new Scanner(System.in);
+        			choice =  userIn.nextInt();
+        		}
+        		break;
+        	} catch (InputMismatchException im) {
+        		System.out.println("Invalid option. Please enter a valid input");
+        		continue;
+        	}
         }
-        myIn.nextLine();
         return choice;        
     }  
 }

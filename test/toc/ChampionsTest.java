@@ -43,14 +43,7 @@ public class ChampionsTest {
     }
 
      
-    //a local method to check a String for contents - not a test as no @test
-    private boolean containsText(String text, String[] str) {
-        boolean result = true;
-        for (String temp : str) {
-            result = result && (text.toLowerCase()).contains(temp.toLowerCase());
-        }
-        return result;
-    }
+    
     
     @Test
     public void isChampionTest()
@@ -63,7 +56,7 @@ public class ChampionsTest {
     public void getChampionDetailsTest(){
         String details = game.getChampionDetails("Argon");
         String[] xx = {"Argon","9", "900", "mace","Warrior"};
-        boolean actual = containsText(details,xx );
+        boolean actual = Utility.containsText(details,xx );
         assertTrue(actual);
     }
     
@@ -71,7 +64,7 @@ public class ChampionsTest {
     public void championInReserveGanfrankDisplayed() {
         String result = game.getReserve();
         String[] xx = {"Ganfrank","true", "7", "400","transmutation", "Wizard"};
-        boolean actual = containsText(result,xx );
+        boolean actual = Utility.containsText(result,xx );
         assertTrue(actual);
     }
     
@@ -79,7 +72,7 @@ public class ChampionsTest {
     public void ChampionInReserveRudolfDisplayed() {
         String result = game.getReserve();
         String[] xx = {"Rudolf", "true", "6", "400","invisibility","Wizard"};
-        boolean actual = containsText(result,xx );
+        boolean actual = Utility.containsText(result,xx );
         assertTrue(actual);
     }
     
@@ -87,7 +80,7 @@ public class ChampionsTest {
     public void ChampionInReserveElblondDisplayed() {
         String result = game.getReserve();
         String[] xx = {"Elblond", "1", "150","sword", "Warrior"};
-        boolean actual = containsText(result,xx );
+        boolean actual = Utility.containsText(result,xx );
         assertTrue(actual);
     }    
     
@@ -95,7 +88,7 @@ public class ChampionsTest {
     public void ChampionInReserveDrabinaDisplayed() {
         String result = game.getReserve();
         String[] xx = {"Drabina", "7", "500","false", "Dragon"};
-        boolean actual = containsText(result,xx );
+        boolean actual = Utility.containsText(result,xx );
         assertTrue(actual);
     }
     
@@ -103,7 +96,7 @@ public class ChampionsTest {
     public void ChampionInReserveGolumDisplayed() {
         String result = game.getReserve();
         String[] xx = {"Golum", "7", "500","true"};
-        boolean actual = containsText(result,xx );
+        boolean actual = Utility.containsText(result,xx );
         assertTrue(actual);
     }
     
@@ -111,7 +104,7 @@ public class ChampionsTest {
     public void ChampionInReserveNeonDisplayed() {
         String result = game.getReserve();
         String[] xx = {"Neon","2", "false", "300","translocation", "Wizard"};
-        boolean actual = containsText(result,xx );
+        boolean actual = Utility.containsText(result,xx );
         assertTrue(actual);
     }
     
@@ -123,7 +116,7 @@ public class ChampionsTest {
         game.enterChampion("Neon");
         String result = game.getTeam();
         String[] xx = {"Neon","2", "false", "300","translocation", "Wizard"};
-        boolean actual = containsText(result,xx );
+        boolean actual = Utility.containsText(result,xx );
         assertTrue(actual);
     }
     
@@ -132,7 +125,7 @@ public class ChampionsTest {
     public void checkFoundChampionInReserve() {
         String result = game.findChampionInReserve("Flimsi");
         String[] xx = {"Flimsi","2", "200","bow", "Warrior"};
-        boolean actual= containsText(result,xx );
+        boolean actual= Utility.containsText(result,xx );
         assertTrue(actual);
     }
     
