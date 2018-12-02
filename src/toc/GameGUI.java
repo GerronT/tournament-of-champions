@@ -61,6 +61,7 @@ public class GameGUI
         eastPanel.add(clearBtn);
         clearBtn.addActionListener(new ClearHandler());
         eastPanel.add(quitBtn);
+        quitBtn.addActionListener(new QuitHandler());
         fightBtn.setVisible(true);
         viewBtn.setVisible(true);
         clearBtn.setVisible(true);
@@ -189,6 +190,14 @@ public class GameGUI
             listing.setVisible(false);            
         }
     }
+    
+    private class QuitHandler implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e) 
+        { 
+            myFrame.dispatchEvent(new WindowEvent(myFrame, WindowEvent.WINDOW_CLOSING));          
+        }
+    }
 
     private class EnterHandler implements ActionListener
     {
@@ -299,7 +308,7 @@ public class GameGUI
         		// output save files in save directory
         		Tournament gp2= gp.loadGame(new File(savePath, loadFile).toString());
         		// overwrite current game if save file loaded correctly
-        		if (gp2 != null) {
+        		if (gp2 != gp) {
         			gp = gp2;
         			dialogBox.setText("Save file State: \n" + gp2.toString());
         			JOptionPane.showMessageDialog(myFrame, msgBoxScrPane); 
