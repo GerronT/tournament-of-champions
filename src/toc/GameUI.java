@@ -66,14 +66,24 @@ public class GameUI
                     {
                         output = "No such champion";
                     }
-                    System.out.println("\n" + output + "\nTreasury = Â£" + tr.getMoney());
+                    System.out.println("\n" + output + "\nTreasury = £" + tr.getMoney());
                     result = -1;
                 }
                 else if (choice == 5)
                 {
-                    System.out.println("Enter number of the challenge");
-                    String chal = myIn.nextLine();
-                    int number = Integer.parseInt(chal);
+                	int number = -1;
+                	while (true) {
+                		try {
+                			System.out.println("Enter number of the challenge");
+                			String chal = myIn.nextLine();
+                			number = Integer.parseInt(chal);
+                			break;
+                		} catch (NumberFormatException nf) {
+                			System.out.println("Invalid input. Enter a valid number");
+                			continue;
+                		}
+                	}
+                    
                     if (tr.isChallenge(number))
                     {
                         result = tr.fightChallenge(number);
@@ -98,7 +108,7 @@ public class GameUI
                     {
                         output = "No such challenge";
                     }
-                    System.out.println("\n" + output + "\nTreasury = Â£" + tr.getMoney());
+                    System.out.println("\n" + output + "\nTreasury = £" + tr.getMoney());
                     result = -1;
                 }
                 else if (choice==6)
@@ -122,7 +132,7 @@ public class GameUI
                     {
                         output = "\nNo such champion ";
                     }
-                    System.out.println(output+"\nTreasury = Â£" + tr.getMoney());
+                    System.out.println(output+"\nTreasury = £" + tr.getMoney());
                     result = -1;
                 }  
                 else if (choice==7)
@@ -191,14 +201,22 @@ public class GameUI
         System.out.println("7. View game state");
         System.out.println("8. Save this game");
         System.out.println("9. Load this game");
-       
         
-        while (choice < 0 || choice  > 9)
+        while (true)
         {
-            System.out.println("Enter the number of your choice");
-            choice =  myIn.nextInt();
+        	try 
+        	{
+        		while (choice < 0 || choice > 9) {
+        			System.out.println("Enter the number of your choice");
+        			Scanner userIn = new Scanner(System.in);
+        			choice =  userIn.nextInt();
+        		}
+        		break;
+        	} catch (InputMismatchException im) {
+        		System.out.println("Invalid option. Please enter a valid input");
+        		continue;
+        	}
         }
-        myIn.nextLine();
         return choice;        
     }  
 }
